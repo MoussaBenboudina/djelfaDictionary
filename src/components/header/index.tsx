@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { IoSunny } from "react-icons/io5";
 import { IoMoon } from "react-icons/io5";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 const Header = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -23,12 +23,9 @@ const Header = () => {
       >
         {darkMode ? <IoSunny /> : <IoMoon />}
       </button>
-      <Link
-        to={"/"}
-        className="logo  text-pink-500 font-bold dark:text-dark-text transition-colors duration-500 ease-in-out"
-      >
+      <div className="logo  text-pink-500 font-bold dark:text-dark-text transition-colors duration-500 ease-in-out">
         djelfaWords
-      </Link>
+      </div>
     </div>
   );
 };

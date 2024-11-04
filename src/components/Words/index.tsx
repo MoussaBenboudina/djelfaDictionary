@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
+import { WORDS } from "../../type";
 import Search from "../search";
 import Loading from "../loading";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { WORDS } from "../../type";
 
 const SearchWord = () => {
   console.log("search Words ");
-  const [originalWords, setOriginalWords] = useState<WORDS[]>([]);
   const [words, setWords] = useState<WORDS[]>([]);
   const [searchWord, setSearchWord] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
@@ -15,13 +14,11 @@ const SearchWord = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${import.meta.env.BASE_URL}data.json`);
-        console.log("res: ", response);
+        const response = await fetch("/data.json");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        setOriginalWords(data);
         setWords(data);
       } catch (error) {
         console.error("Failed to fetch data:", error);
@@ -31,25 +28,23 @@ const SearchWord = () => {
     };
 
     fetchData();
-  }, []);
+  }, [searchWord]);
 
   useEffect(() => {
     if (searchWord) {
-      const filteredData = originalWords.filter((e) =>
+      const filteredData = words.filter((e) =>
         e.djelfaWord.toLowerCase().includes(searchWord.toLowerCase())
       );
       setWords(filteredData);
-    } else {
-      setWords(originalWords);
     }
-  }, [searchWord, originalWords]);
+  }, [searchWord, words]);
 
   return (
     <div>
       {loading ? (
         <Loading />
       ) : (
-        <div className="mt-20 flex flex-col items-center relative w-full ">
+        <div className="mt-20 flex flex-col items-center relative">
           <Search setSearchWord={setSearchWord} />
           {words.length > 0 ? (
             words.map((word, index) => (
@@ -65,7 +60,7 @@ const SearchWord = () => {
               >
                 <Link
                   to={`/words/${word.id}`}
-                  className="flex gap-8 text-xl w-[350px] lg:w-[600px] xl:w-[800px] justify-center items-center m-2 p-4 rounded shadow-md bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 hover:bg-pink-500 dark:hover:bg-pink-500 transition-colors duration-500 ease-in-out"
+                  className="flex gap-8 text-xl w-[90%] lg:w-[600px] xl:w-[800px] justify-center items-center m-2 p-4 rounded shadow-md bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 hover:bg-pink-500 dark:hover:bg-pink-500 transition-colors duration-500 ease-in-out"
                 >
                   <div>{word.djelfaWord}</div>
                   <div>{word.translation}</div>
