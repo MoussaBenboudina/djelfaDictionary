@@ -15,7 +15,7 @@ const SearchWord = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/data.json");
+        const response = await fetch(`${import.meta.env.BASE_URL}data.json`);
         console.log("res: ", response);
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -31,7 +31,7 @@ const SearchWord = () => {
     };
 
     fetchData();
-  }, [searchWord]);
+  }, []);
 
   useEffect(() => {
     if (searchWord) {
@@ -49,7 +49,7 @@ const SearchWord = () => {
       {loading ? (
         <Loading />
       ) : (
-        <div className="mt-20 flex flex-col items-center relative">
+        <div className="mt-20 flex flex-col items-center relative w-full ">
           <Search setSearchWord={setSearchWord} />
           {words.length > 0 ? (
             words.map((word, index) => (
@@ -65,7 +65,7 @@ const SearchWord = () => {
               >
                 <Link
                   to={`/words/${word.id}`}
-                  className="flex gap-8 text-xl w-[90%] lg:w-[600px] xl:w-[800px] justify-center items-center m-2 p-4 rounded shadow-md bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 hover:bg-pink-500 dark:hover:bg-pink-500 transition-colors duration-500 ease-in-out"
+                  className="flex gap-8 text-xl w-[350px] lg:w-[600px] xl:w-[800px] justify-center items-center m-2 p-4 rounded shadow-md bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 hover:bg-pink-500 dark:hover:bg-pink-500 transition-colors duration-500 ease-in-out"
                 >
                   <div>{word.djelfaWord}</div>
                   <div>{word.translation}</div>

@@ -12,7 +12,7 @@ const WordDetail = () => {
   useEffect(() => {
     const fetchWord = async () => {
       try {
-        const response = await fetch("/data.json");
+        const response = await fetch(`${import.meta.env.BASE_URL}data.json`);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -43,11 +43,11 @@ const WordDetail = () => {
   }
 
   if (!word) {
-    return <div>الكلمة غير موجود</div>;
+    return <div className="mt-20">الكلمة غير موجود</div>;
   }
 
   return (
-    <div className="flex flex-col justify-center h-screen w-[500px] text-xl">
+    <div className="flex flex-col justify-center h-screen w-[350px] xl:w-[500px] text-md xl:text-xl p-4">
       <div className="flex gap-2">
         <h1 className="font-bold">{word.djelfaWord}</h1>
         <div>{word.description}</div>
@@ -57,7 +57,7 @@ const WordDetail = () => {
         {word.examples.map((example: string, index: number) => (
           <div
             key={index}
-            className="bg-gray-100 dark:bg-gray-900 py-2 px-8 m-2 rounded-md shadow-md"
+            className="bg-gray-100  dark:bg-gray-900 py-2 px-8 m-2 rounded-md shadow-md"
           >
             {example}
           </div>
