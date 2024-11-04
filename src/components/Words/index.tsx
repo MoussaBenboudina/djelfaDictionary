@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { WORDS } from "../../type";
 import Search from "../search";
 import Loading from "../loading";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { WORDS } from "../../type";
 
 const SearchWord = () => {
   console.log("search Words ");
+  const [originalWords, setOriginalWords] = useState<WORDS[]>([]);
   const [words, setWords] = useState<WORDS[]>([]);
   const [searchWord, setSearchWord] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
@@ -15,10 +16,12 @@ const SearchWord = () => {
     const fetchData = async () => {
       try {
         const response = await fetch("/data.json");
+        console.log("res: ", response);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
+        setOriginalWords(data);
         setWords(data);
       } catch (error) {
         console.error("Failed to fetch data:", error);
@@ -32,12 +35,14 @@ const SearchWord = () => {
 
   useEffect(() => {
     if (searchWord) {
-      const filteredData = words.filter((e) =>
+      const filteredData = originalWords.filter((e) =>
         e.djelfaWord.toLowerCase().includes(searchWord.toLowerCase())
       );
       setWords(filteredData);
+    } else {
+      setWords(originalWords);
     }
-  }, [searchWord, words]);
+  }, [searchWord, originalWords]);
 
   return (
     <div>
